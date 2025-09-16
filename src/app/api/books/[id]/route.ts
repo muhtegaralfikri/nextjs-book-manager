@@ -3,11 +3,9 @@ import prisma from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: any
 ) {
   try {
-    await request.text();
-
     const id = context.params.id;
 
     const book = await prisma.book.findUnique({
@@ -28,9 +26,10 @@ export async function GET(
   }
 }
 
+
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: any
 ) {
   try {
     const data = await request.json();
@@ -67,11 +66,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: any
 ) {
   try {
     await request.text();
-
     const id = context.params.id;
 
     await prisma.book.delete({
