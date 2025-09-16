@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma'; // Import singleton Prisma kita
-
+import { revalidatePath } from 'next/cache';
 /**
  * Handler untuk GET /api/books
  * Mengambil semua buku
@@ -48,6 +48,8 @@ export async function POST(request: Request) {
         coverImage,
       },
     });
+
+    revalidatePath('/');
 
     return NextResponse.json(newBook, { status: 201 }); // 201 = Created
   } catch (error) {

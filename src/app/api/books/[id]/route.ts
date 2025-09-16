@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-
+import { revalidatePath } from 'next/cache';
 export async function GET(
   request: NextRequest,
   context: any
@@ -54,6 +54,8 @@ export async function PUT(
       },
     });
 
+    revalidatePath('/');
+
     return NextResponse.json(updatedBook);
   } catch (error) {
     console.error(error);
@@ -75,8 +77,8 @@ export async function DELETE(
     await prisma.book.delete({
       where: { id: id },
     });
-
-    return new NextResponse(null, { status: 204 });
+    revalidatePath('/');
+    return new NextResponse(null, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
