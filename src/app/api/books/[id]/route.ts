@@ -7,7 +7,7 @@ export async function DELETE(
 ) {
   try {
   
-    await request.text();
+    //await request.text();
 
     const id = context.params.id; 
     await prisma.book.delete({

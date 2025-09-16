@@ -2,7 +2,6 @@
 'use client';
 
 import { Book } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import Image from 'next/image';
 
