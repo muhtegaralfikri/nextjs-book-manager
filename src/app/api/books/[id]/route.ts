@@ -1,32 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export async function DELETE(
-  request: Request,
-  context: { params: { id: string } } 
-) {
-  try {
-  
-    //await request.text();
-
-    const id = context.params.id; 
-    await prisma.book.delete({
-      where: { id: id },
-    });
-
-    // Kirim respons sukses
-    return new NextResponse(null, { status: 204 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: 'Failed to delete book.' },
-      { status: 500 }
-    );
-  }
-}
-
 export async function GET(
-  request: Request,
+  request: NextRequest,
   context: { params: { id: string } }
 ) {
   try {
@@ -53,18 +29,15 @@ export async function GET(
 }
 
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   context: { params: { id: string } }
 ) {
   try {
-    // 1. Await request body dulu (ini juga fix-nya warning sync)
     const data = await request.json();
-    // 2. Baru ambil ID
     const id = context.params.id;
 
     const { title, author, year, coverImage } = data;
 
-    // Validasi sederhana
     if (!title || !author || !year) {
       return NextResponse.json(
         { error: 'Title, author, and year are required.' },
@@ -87,6 +60,29 @@ export async function PUT(
     console.error(error);
     return NextResponse.json(
       { error: 'Failed to update book' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
+  try {
+    await request.text();
+
+    const id = context.params.id;
+
+    await prisma.book.delete({
+      where: { id: id },
+    });
+
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: 'Failed to delete book.' },
       { status: 500 }
     );
   }
