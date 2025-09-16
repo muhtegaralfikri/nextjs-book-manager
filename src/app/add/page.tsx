@@ -1,14 +1,13 @@
 'use client'; 
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import type { BookFormData } from '@/components/BookForm'; 
 import BookForm from '@/components/BookForm';
 
 export default function AddBookPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  
 
   const handleSubmit = async (data: BookFormData, file?: File) => {
     setIsLoading(true);
@@ -52,8 +51,7 @@ export default function AddBookPage() {
       }
       
       console.log('Book saved!');
-      router.push('/'); 
-      router.refresh(); 
+      window.location.href = '/';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Terjadi kesalahan');
       setIsLoading(false);

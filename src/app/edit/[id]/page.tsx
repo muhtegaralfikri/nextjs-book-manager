@@ -1,7 +1,7 @@
 'use client'; 
 
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import type { BookFormData } from '@/components/BookForm'; 
 import BookForm from '@/components/BookForm';
@@ -12,7 +12,6 @@ export default function EditBookPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const router = useRouter();
   const params = useParams();
   const id = params.id as string; 
 
@@ -82,8 +81,7 @@ export default function EditBookPage() {
       }
       
       console.log('Book updated!');
-      router.push('/'); 
-      router.refresh(); 
+      window.location.href = '/';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Terjadi kesalahan');
       setIsLoading(false);
